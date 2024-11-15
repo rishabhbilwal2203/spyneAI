@@ -4,6 +4,7 @@ const Car = require('../models/Car'); // assuming you have a Car model in the mo
 exports.uploadCar = async (req, res) => {
     try {
       // Check if files are uploaded
+      const userId = req.userId;
       const { title, description, tags } = req.body;
       console.log(req.files);
       if (!req.files || req.files.length === 0) {
@@ -21,6 +22,7 @@ exports.uploadCar = async (req, res) => {
       // Create a new car document with image URLs and other details
       const newCar = new Car({
         title,
+        userId,
         description,
         tags: tags.split(","),
         images: imageUrls // Store the image URLs in the images array
@@ -91,7 +93,8 @@ exports.deleteCar = async (req, res) => {
 
 exports.getAllCars = async (req, res) => {
     try {
-        const cars = await Car.find(); // Fetch all cars from the database
+        const userId = req.userId;
+        const cars = await Car.find({userId}); // Fetch all cars from the database
         res.status(200).json({ cars });
     } catch (error) {
         console.error(error);

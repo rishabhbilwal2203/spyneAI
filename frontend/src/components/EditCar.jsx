@@ -17,8 +17,14 @@ const EditCar = () => {
   const [fileList, setFileList] = useState([]);
 
   // Fetch the car data on component mount (initial load)
+
   useEffect(() => {
     const fetchCarData = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        // If token exists, navigate to the home page
+        navigate('/login');
+      }
       try {
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/cars/car/${id}`);
         const car = response.data.car;

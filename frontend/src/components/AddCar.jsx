@@ -1,9 +1,10 @@
 
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input, Upload, Button, Tag, message, Typography } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const { Title } = Typography;
 
@@ -12,6 +13,17 @@ const AddCar = () => {
   const [description, setDescription] = useState('');
   const [tags, setTags] = useState([]);
   const [fileList, setFileList] = useState([]);
+  const token = localStorage.getItem('token');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check if the token is in localStorage
+    const token = localStorage.getItem('token');
+    if (!token) {
+      // If token exists, navigate to the home page
+      navigate('/login');
+    }
+  }, [navigate]);
 
   const handleTitleChange = (e) => setTitle(e.target.value);
   const handleDescriptionChange = (e) => setDescription(e.target.value);
@@ -40,12 +52,15 @@ const AddCar = () => {
       formData.append('images', file.originFileObj); // Attach files to the form data
     });
 
+    
+
     try {
       // Call the API to submit the data
       console.log(formData);
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/cars/add`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data', // Necessary for file uploads
+          'Authorization': `Bearer ${token}`
         },
       });
 

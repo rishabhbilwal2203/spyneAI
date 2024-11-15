@@ -10,9 +10,20 @@ const ProductList = () => {
   
   // Fetch products from the API
   useEffect(() => {
+    
+      // Check if the token is in localStorage
+      const token = localStorage.getItem('token');
+      if (!token) {
+        // If token exists, navigate to the home page
+        navigate('/login');
+      }
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/cars/`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/cars/`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
         setProducts(response.data.cars); // Assuming the API returns an array of products
       } catch (error) {
         console.error('Error fetching products:', error);
@@ -20,7 +31,7 @@ const ProductList = () => {
     };
     
     fetchProducts();
-  }, []);
+  }, [navigate]);
   
   // Filter products based on the search term
   const filteredProducts = products.filter(product =>

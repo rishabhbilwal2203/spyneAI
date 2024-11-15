@@ -5,19 +5,19 @@ const multer = require('multer');
 const { uploadCar, editCar, deleteCar, getAllCars, getCarById } = require('../controllers/carController');
 const storage = multer.diskStorage({});
 const upload = multer({ storage });
+const authMiddleware = require('../middleware/authMiddleware');
 
-
-router.post('/add', upload.array('images', 10), uploadCar);
+router.post('/add',authMiddleware, upload.array('images', 10), uploadCar);
 
 // Route to update an existing car
-router.put('/update/:id', upload.array('images', 10), editCar);
+router.put('/update/:id',authMiddleware, upload.array('images', 10), editCar);
 
 
 // Route to delete a car
-router.delete('/delete/:id', deleteCar);
+router.delete('/delete/:id',authMiddleware, deleteCar);
 
-router.get('/',getAllCars);
+router.get('/',authMiddleware, getAllCars);
 
-router.get('/car/:id', getCarById);
+router.get('/car/:id',authMiddleware, getCarById);
 
 module.exports = router;
