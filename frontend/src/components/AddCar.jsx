@@ -155,7 +155,7 @@ const AddCar = () => {
     try {
       // Call the API to submit the data
       console.log(formData);
-      const response = await axios.post('http://localhost:5000/api/cars/add', formData, {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/cars/add`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data', // Necessary for file uploads
         },

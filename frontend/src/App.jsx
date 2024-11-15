@@ -1,7 +1,7 @@
 import { Route, Routes, useLocation } from "react-router-dom";
 import SignUp from "./components/SignUp";
 import Header from "./components/Header";
-import LogIn from "./components/Login";
+import LogIn from "./components/LogIn";
 import ProductList from "./components/ProductList";
 import ProductPage from "./components/ProductPage";
 import AddCar from "./components/AddCar";

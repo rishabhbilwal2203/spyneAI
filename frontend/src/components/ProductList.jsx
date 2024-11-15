@@ -82,7 +82,7 @@ const ProductList = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/cars/'); // Replace with your API URL
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/cars/`); // Replace with your API URL
         console.log(response.data.cars)
         setProducts(response.data.cars); // Assuming the API returns an array of products
       } catch (error) {
