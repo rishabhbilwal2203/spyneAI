@@ -36,14 +36,14 @@ const Header = () => {
           >
             <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
           </svg>
-          <span className="ml-3 text-xl font-bold">Tailblocks</span>
+          <span className="ml-3 text-xl font-bold">CARS77</span>
         </a>
         <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center space-x-4">
           <button
             onClick={handleAddCard}
             className="inline-flex items-center bg-indigo-500 text-white border-0 py-2 px-4 focus:outline-none hover:bg-indigo-600 rounded text-base"
           >
-            Add Card
+            Add Car
           </button>
           <button
             onClick={handleLogout}
