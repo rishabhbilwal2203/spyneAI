@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SignUpImage from '../assets/9684913.jpg'; // Adjust the path as needed
 import axios from 'axios';
+import { useNavigate, Link } from 'react-router-dom';
+
 const SignUp = () => {
   // State for form inputs
   const [formData, setFormData] = useState({
@@ -9,7 +11,16 @@ const SignUp = () => {
     password: '',
     cPassword: ''
   });
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    // Check if the token is in localStorage
+    const token = localStorage.getItem('token');
+    if (token) {
+      // If token exists, navigate to the home page
+      navigate('/');
+    }
+  }, [navigate]);
   // Handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,7 +41,7 @@ const SignUp = () => {
     }
 
     try {
-        const response = await axios.post('http://localhost:5000/api/auth/signup', {
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/signup`, {
             name: formData.name,
             email: formData.email,
             password: formData.password
@@ -45,6 +56,7 @@ const SignUp = () => {
             alert("Sign-up successful!");
             // Optional: Reset form
             setFormData({ name: '', email: '', password: '', cPassword: '' });
+            navigate('/');
         } else {
             alert(`Sign-up failed: ${result.message}`);
         }
@@ -52,8 +64,7 @@ const SignUp = () => {
         console.error("Error:", error);
         alert("There was an error submitting the form. Please try again later.");
     }
-};
-
+  };
 
   return (
     <section className="text-gray-600 body-font relative">
@@ -113,9 +124,16 @@ const SignUp = () => {
               />
             </div>
             <button type="submit" className="text-white bg-indigo-500 border-0 py-2 px-7 focus:outline-none hover:bg-indigo-600 rounded text-lg">Create Account</button>
-            
           </form>
-          <p className="text-xs text-gray-500 mt-3">Chicharrones blog helvetica normcore iceland tousled brook viral artisan.</p>
+
+          {/* Link to Login page */}
+          <p className="text-sm text-gray-500 mt-4 text-center">
+            Already have an account?{' '}
+            <Link to="/login" className="text-indigo-500 hover:text-indigo-600">
+              Log In
+            </Link>
+          </p>
+
         </div>
       </div>
     </section>
@@ -123,3 +141,4 @@ const SignUp = () => {
 };
 
 export default SignUp;
+

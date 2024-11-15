@@ -98,3 +98,22 @@ exports.getAllCars = async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch cars' });
     }
 };
+
+exports.getCarById = async (req, res) => {
+    const { id } = req.params; // Get the car ID from the URL parameters
+    try {
+        // Find the car by its ID
+        const car = await Car.findById(id);
+        // If the car is not found, return a 404 error
+        console.log(car);
+        if (!car) {
+            return res.status(404).json({ error: 'Car not found' });
+        }
+        // Return the car data
+        res.status(200).json({ car });
+    } catch (error) {
+        console.error(error);
+        // If there's an error (e.g., invalid ID format), return a 500 error
+        res.status(500).json({ error: 'Failed to fetch car' });
+    }
+};

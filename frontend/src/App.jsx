@@ -5,6 +5,8 @@ import LogIn from "./components/LogIn";
 import ProductList from "./components/ProductList";
 import ProductPage from "./components/ProductPage";
 import AddCar from "./components/AddCar";
+import EditCar from "./components/EditCar";
+
 
 function App() {
   const location = useLocation();
@@ -21,7 +23,8 @@ function App() {
         <Route path="/" element={<ProductList />} />
         <Route path="/login" element={<LogIn />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/product" element={<ProductPage />} />
+        <Route path="/product/:id" element={<ProductPage />} />
+        <Route path="/edit-car/:id" element={<EditCar/>}/>
         <Route path="/add-car" element={<AddCar />} />
       </Routes>
     </>
