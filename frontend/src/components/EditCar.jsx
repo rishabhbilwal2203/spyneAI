@@ -15,6 +15,7 @@ const EditCar = () => {
   const [description, setDescription] = useState('');
   const [tags, setTags] = useState([]);
   const [fileList, setFileList] = useState([]);
+  const token = localStorage.getItem('token');
 
   // Fetch the car data on component mount (initial load)
 
@@ -26,7 +27,11 @@ const EditCar = () => {
         navigate('/login');
       }
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/cars/car/${id}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/cars/car/${id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
         const car = response.data.car;
         console.log(car);
         if (car) {
@@ -77,6 +82,7 @@ const EditCar = () => {
       const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/cars/update/${id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data', // Necessary for file uploads
+          'Authorization': `Bearer ${token}`
         },
       });
 

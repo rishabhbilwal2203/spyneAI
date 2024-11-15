@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
@@ -7,9 +7,14 @@ const ProductPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { product } = location.state || {}; // Access product from state
-
+  const token = localStorage.getItem('token');
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+  useEffect(() => {
+    if(!token){
+      navigate('/login')
+    }
+  }, [navigate, token]);
   const handlePrevImage = () => {
     setCurrentImageIndex((prevIndex) =>
       prevIndex === 0 ? product.images.length - 1 : prevIndex - 1
@@ -29,7 +34,11 @@ const ProductPage = () => {
   const handleDelete = async () => {
     try {
       // Call the API to delete the product
-      await axios.delete(`${import.meta.env.VITE_API_URL}/api/cars/delete/${product._id}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/cars/delete/${product._id}`,{
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
       
       // Navigate back to the product list page
       navigate('/');
